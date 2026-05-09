@@ -1,122 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from "react";
+import { checkBackendHealth } from "./services/api";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [backendStatus, setBackendStatus] = useState("Đang kiểm tra...");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    async function loadBackendStatus() {
+      try {
+        const data = await checkBackendHealth();
+        setBackendStatus("Đang hoạt động");
+        setMessage(data.message);
+      } catch (error) {
+        setBackendStatus("Không kết nối được");
+        setMessage(error.message);
+      }
+    }
+
+    loadBackendStatus();
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-lime-50 p-8 text-slate-900">
+      <div className="mx-auto max-w-5xl">
+        <div className="rounded-3xl bg-white p-8 shadow-xl">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-3xl">
+              🌾
+            </div>
 
-      <div className="ticks"></div>
+            <div>
+              <h1 className="text-3xl font-bold text-green-700">FarmMate</h1>
+              <p className="text-slate-500">
+                Hệ thống quản lý mùa vụ và hỗ trợ nông dân Việt Nam
+              </p>
+            </div>
+          </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <div className="grid gap-5 md:grid-cols-3">
+            <div className="rounded-2xl border border-green-100 bg-green-50 p-5">
+              <p className="text-sm text-slate-500">Frontend</p>
+              <h2 className="mt-2 text-xl font-bold text-green-700">
+                Đang chạy
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                React + Vite + Tailwind CSS
+              </p>
+            </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+            <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
+              <p className="text-sm text-slate-500">Backend</p>
+              <h2 className="mt-2 text-xl font-bold text-blue-700">
+                {backendStatus}
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">{message}</p>
+            </div>
+
+            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-5">
+              <p className="text-sm text-slate-500">Trạng thái hệ thống</p>
+              <h2 className="mt-2 text-xl font-bold text-amber-700">
+                Fullstack bước đầu
+              </h2>
+              <p className="mt-2 text-sm text-slate-500">
+                Frontend đã gọi được API backend.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl bg-slate-50 p-5">
+            <h3 className="font-bold">Bước tiếp theo</h3>
+            <p className="mt-2 text-slate-600">
+              Sau khi kết nối frontend và backend thành công, mình sẽ bắt đầu
+              dựng Dashboard FarmMate tiếng Việt hiện đại giống bản mockup đã
+              chốt.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
