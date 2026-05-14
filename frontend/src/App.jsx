@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Fields from "./pages/Fields";
+import Seasons from "./pages/Seasons";
 
 function App() {
   const [page, setPage] = useState(window.location.hash || "#dashboard");
@@ -19,6 +20,10 @@ function App() {
 
   if (page === "#fields") {
     return <Fields />;
+  }
+
+  if (page === "#seasons") {
+    return <Seasons />;
   }
 
   return <Dashboard />;
