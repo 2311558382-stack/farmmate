@@ -161,7 +161,7 @@ function HeroTop() {
           </div>
         </div>
 
-        <div className="absolute right-9 top-[105px] z-10 hidden w-[235px] rounded-[24px] bg-white/95 p-5 shadow-xl backdrop-blur xl:block">
+        <div className="absolute right-9 top-[1px] z-10 hidden w-[235px] rounded-[24px] bg-white/95 p-5 shadow-xl backdrop-blur xl:block">
           <p className="text-sm font-bold text-slate-500">Sức khỏe ruộng</p>
           <p className="mt-2 text-[42px] font-black leading-none text-emerald-600">
             92%

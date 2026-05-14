@@ -13,19 +13,21 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { label: "Tổng quan", icon: Home, active: true },
-  { label: "Ruộng", icon: Wheat },
-  { label: "Mùa vụ", icon: Sprout },
-  { label: "Chi phí", icon: Wallet },
-  { label: "Thu hoạch", icon: Tractor },
-  { label: "Chẩn đoán AI", icon: Bot },
-  { label: "Thời tiết", icon: CloudSun },
-  { label: "Giá nông sản", icon: LineChart },
-  { label: "Báo cáo", icon: FileText },
-  { label: "Cài đặt", icon: Settings },
+  { label: "Tổng quan", icon: Home, href: "#dashboard" },
+  { label: "Ruộng", icon: Wheat, href: "#fields" },
+  { label: "Mùa vụ", icon: Sprout, href: "#seasons" },
+  { label: "Chi phí", icon: Wallet, href: "#costs" },
+  { label: "Thu hoạch", icon: Tractor, href: "#harvests" },
+  { label: "Chẩn đoán AI", icon: Bot, href: "#diagnosis" },
+  { label: "Thời tiết", icon: CloudSun, href: "#weather" },
+  { label: "Giá nông sản", icon: LineChart, href: "#prices" },
+  { label: "Báo cáo", icon: FileText, href: "#reports" },
+  { label: "Cài đặt", icon: Settings, href: "#settings" },
 ];
 
 function Sidebar() {
+  const currentHash = window.location.hash || "#dashboard";
+
   return (
     <aside className="sticky top-0 hidden h-screen border-r border-slate-100 bg-white px-5 py-6 lg:flex lg:flex-col">
       <div className="mb-8 flex items-center gap-3">
@@ -46,19 +48,21 @@ function Sidebar() {
       <nav className="space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
+          const isActive = currentHash === item.href;
 
           return (
-            <button
+            <a
               key={item.label}
+              href={item.href}
               className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold transition ${
-                item.active
+                isActive
                   ? "bg-emerald-50 text-emerald-700 shadow-sm"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"
               }`}
             >
               <Icon size={20} />
               <span>{item.label}</span>
-            </button>
+            </a>
           );
         })}
       </nav>
